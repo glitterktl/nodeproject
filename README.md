@@ -48,3 +48,51 @@ The form currently relies on built-in browser validation:
 - The pickup and destination inputs accept no more than 200 characters.
 
 There is no JavaScript form submission or ride-estimate calculation yet.
+
+## Journey form behavior
+
+The user starts by entering a pickup location and destination:
+
+1. Enter the pickup location in the first field.
+2. Enter the destination in the second field.
+3. Use the **Continue** button after both fields pass browser validation.
+
+Example values:
+
+```text
+Pickup: King's Cross Station
+Destination: London Bridge
+```
+
+At the moment, the form is a front-end entry step only. It does not send the locations to a server or calculate or compare ride prices.
+
+## Customizing the form
+
+You can update the journey fields in `index.html`:
+
+- Change placeholder text by editing the `placeholder` attributes.
+- Change the character limit by editing the `maxlength` attributes.
+- Make the fields optional by removing `required`.
+- Update field names or labels to fit your application.
+
+Colors and visual spacing can be changed in `style.css`. The main page background, brand color, and card color are defined near the top of the file.
+
+## Planned enhancements
+
+Possible future additions include:
+
+- JavaScript form submission
+- Pickup and destination address validation
+- Taxi and ride-provider price estimates
+- Journey distance and travel-time calculations
+- Loading, error, and no-results states
+- Saved and recently used locations
+
+## Contributing
+
+Contributions are welcome. When extending the journey form, keep the following in mind:
+
+- Preserve labels and browser validation for accessible input
+- Check layouts on both mobile and desktop widths
+- Preserve keyboard focus and reduced-motion support
+- Update this README when new behavior is added
