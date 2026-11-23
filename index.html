@@ -1,96 +1,15 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta
-      name="description"
-      content="Compare estimated taxi prices for your journey."
-    >
-    <title>RideCompare — compare taxi estimates</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <main class="page">
-      <!-- The header introduces the app name and keeps the page identifiable. -->
-      <header class="site-header">
-        <a class="brand" href="#" aria-label="RideCompare home">
-          <span class="brand-mark" aria-hidden="true">R</span>
-          <span>RideCompare</span>
-        </a>
-        <span class="header-note">A clearer way to compare rides</span>
-      </header>
+<h1>taxi price comparison</h1>
+<form id="price-form" action="/compare-prices" method="post">
+  <label for="pickup">Pickup:</label><br>
+  <input type="text" id="pickup" name="pickup"><br>
+  
+  <label for="dropoff">Dropoff:</label><br>
+  <input type="text" id="dropoff" name="dropoff"><br>
 
-      <!-- Short introduction above the route form. -->
-      <section class="intro" aria-labelledby="page-title">
-        <p class="eyebrow">YOUR JOURNEY, YOUR CHOICE</p>
-        <h1 id="page-title">Find a ride that fits.</h1>
-        <p class="intro-copy">
-          Enter your pickup and destination to get started.
-        </p>
-      </section>
+  <input type="submit" value="Compare Prices">
 
-      <!-- The form collects the two locations used by the comparison. -->
-      <section class="search-card" aria-labelledby="form-title">
-        <div class="card-heading">
-          <span class="step-number" aria-hidden="true">01</span>
-          <div>
-            <h2 id="form-title">Where are you going?</h2>
-            <p>Start with your pickup point and destination.</p>
-          </div>
-        </div>
 
-        <form id="journey-form">
-          <!-- required and maxlength provide basic browser validation without JavaScript. -->
-          <div class="field">
-            <label for="pickup">Pickup location</label>
-            <div class="input-wrap">
-              <span class="location-dot pickup-dot" aria-hidden="true"></span>
-              <input
-                id="pickup"
-                name="pickup"
-                type="text"
-                placeholder="e.g. King's Cross Station"
-                maxlength="200"
-                autocomplete="street-address"
-                required
-              >
-            </div>
-          </div>
+</form>
 
-          <!-- Decorative line connects the pickup and destination markers. -->
-          <div class="route-line" aria-hidden="true"></div>
-
-          <div class="field">
-            <label for="destination">Destination</label>
-            <div class="input-wrap">
-              <span class="location-dot destination-dot" aria-hidden="true"></span>
-              <input
-                id="destination"
-                name="destination"
-                type="text"
-                placeholder="e.g. London Bridge"
-                maxlength="200"
-                autocomplete="street-address"
-                required
-              >
-            </div>
-          </div>
-
-          <button class="submit-button" type="submit">
-            Continue
-            <span aria-hidden="true">→</span>
-          </button>
-          <p class="form-hint">
-            Both locations are required. Each can be up to 200 characters.
-          </p>
-        </form>
-      </section>
-
-      <!-- Simple footer at the bottom of the page. -->
-      <footer class="site-footer">
-        <span>Made for easier journey planning</span>
-      </footer>
-    </main>
-  </body>
-</html>
+    
