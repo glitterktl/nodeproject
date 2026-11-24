@@ -8,13 +8,11 @@ RideCompare is a simple page for planning a journey and comparing ride estimates
 
 The journey form includes:
 
-- Required pickup location and destination fields
-- A 200-character limit for each location
-- Address-friendly browser autocomplete
-- A clear route layout with pickup and destination markers
-- A continue button and inline validation guidance
+- Pickup location and destination fields
+- A submit button
+- Server-side checks that reject missing or whitespace-only locations
 
-The browser checks that both locations are filled in before the form can be submitted.
+The `/prepare_route` endpoint trims both values and returns HTTP 400 if either one is empty.
 
 ### Responsive and accessible design
 
@@ -43,16 +41,17 @@ The browser checks that both locations are filled in before the form can be subm
 
 The Flask app serves the `index.html` form from the repository folder above.
 
-## Form submission
+## Form submission and validation
 
-The form submits its `pickup` and `dropoff` fields to Flask's `/compare-prices`
-route. Flask reads the form fields and converts them to a dictionary. The route
-returns a plain-text success message to the browser. It does not calculate a
-price yet; fare estimation needs route distance and travel time.
+Flask's `/prepare_route` endpoint reads the `pickup` and `dropoff` form fields
+and trims surrounding whitespace. If either value is empty, the endpoint
+returns HTTP 400 with a message asking for both locations. Otherwise, it formats
+the addresses as a Google Routes request body and logs that JSON on the server.
+The request is not sent to Google, and this endpoint does not calculate a fare.
 
-
-
-
+Validation currently happens on the server, not in the browser. The form in
+`index.html` currently posts to `/compare-prices`; set its action to
+`/prepare_route` for submissions from the page to reach this validation handler.
 
 ## Journey form behavior
 
@@ -60,7 +59,9 @@ The user starts by entering a pickup location and destination:
 
 1. Enter the pickup location in the first field.
 2. Enter the destination in the second field.
-3. Use the **Continue** button after both fields pass browser validation.
+3. Use the submit button to send both locations.
+4. If either location is blank or contains only spaces, the server rejects the
+   submission with a validation message.
 
 Example values:
 
@@ -69,7 +70,8 @@ Pickup: King's Cross Station
 Destination: London Bridge
 ```
 
-The form sends the locations to the Flask server. It does not calculate or compare ride prices yet.
+The `/prepare_route` endpoint formats the locations for a Google Routes request
+but does not send that request or calculate or compare ride prices.
 
 ## Customizing the form
 
@@ -97,7 +99,7 @@ Possible future additions include:
 
 Contributions are welcome. When extending the journey form, keep the following in mind:
 
-- Preserve labels and browser validation for accessible input
+- Preserve labels and server-side validation for required locations
 - Check layouts on both mobile and desktop widths
 - Preserve keyboard focus and reduced-motion support
 - Update this README when new behavior is added
