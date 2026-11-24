@@ -7,7 +7,7 @@ from estimation import estimation
 app = Flask(__name__)
 index_file = Path(__file__).resolve().parent.parent / "index.html"
 
-def form_to_google_routes_body(form):
+def form_to_json(form):
     pickup = form.get("pickup", "").strip()
     dropoff = form.get("dropoff", "").strip()
     return {
@@ -22,19 +22,17 @@ def index():
 #####################################################################
 @app.route('/prepare_route', methods=['POST'])
 def prepare_route():
-    route_body = form_to_google_routes_body(request.form)
+    route_json = form_to_json(request.form)
     app.logger.info(
         "Prepared Google Routes request body (not sent to Google yet):\n%s",
-        json.dumps(route_body, indent=2),
+        json.dumps(route_json, indent=2),
     )
 
-    if not route_body["origin"]["address"] or not route_body["destination"]["address"]:
-        return "Please enter both a pickup and a dropoff location.", 400
 
     return render_template_string(
             index_file.read_text(encoding="utf-8"),
-            pickup=route_body["origin"]["address"],
-            dropoff=route_body["destination"]["address"],
+            pickup=route_json["origin"]["address"],
+            dropoff=route_json["destination"]["address"],
             message="Google Routes request body prepared. Check the server logs for details.")
 #########################################################################
 @app.route('/estimate_price', methods=['POST'])

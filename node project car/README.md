@@ -50,31 +50,9 @@ route. Flask reads the form fields and converts them to a dictionary. The route
 returns a plain-text success message to the browser. It does not calculate a
 price yet; fare estimation needs route distance and travel time.
 
-## Driver location prototype
 
-`geoloc.py` contains starter helpers for storing opted-in drivers' coordinates
-in Redis and searching for up to four nearby active drivers. It is a backend
-helper only; the webpage does not connect to Redis directly.
 
-1. Install the Python dependency with `python -m pip install -r requirements.txt`.
-2. Start or create a Redis service and set `REDIS_URL` to its connection URL.
-3. Have your backend call `update_driver_location` when an available driver
-   shares a location, then call `find_nearby_drivers` for a pickup location.
 
-Drivers need to refresh their location before the active heartbeat expires
-(30 seconds by default). The returned distances are in kilometers. Keep the
-Redis URL private, request location permission, and don't expose exact driver
-coordinates to riders.
-
-## Browser validation
-
-The form currently relies on built-in browser validation:
-
-- Leaving either location empty prevents submission.
-- The pickup and destination inputs accept no more than 200 characters.
-
-The address form submits to Flask. Ride-estimate calculation is not connected
-to the address form yet.
 
 ## Journey form behavior
 
