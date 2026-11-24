@@ -1,16 +1,42 @@
+import json
 from pathlib import Path
-
-from flask import Flask, jsonify, request
+from flask import Flask, request, render_template_string, jsonify
 from flask import send_file
 from estimation import estimation
 
 app = Flask(__name__)
 index_file = Path(__file__).resolve().parent.parent / "index.html"
 
+def form_to_google_routes_body(form):
+    pickup = form.get("pickup", "").strip()
+    dropoff = form.get("dropoff", "").strip()
+    return {
+        "origin": {"address": pickup},
+        "destination": {"address": dropoff},
+        "travelMode": "DRIVE",
+    }
+####################################################################
 @app.route('/', methods=['GET'])
 def index():
     return send_file(index_file)
+#####################################################################
+@app.route('/prepare_route', methods=['POST'])
+def prepare_route():
+    route_body = form_to_google_routes_body(request.form)
+    app.logger.info(
+        "Prepared Google Routes request body (not sent to Google yet):\n%s",
+        json.dumps(route_body, indent=2),
+    )
 
+    if not route_body["origin"]["address"] or not route_body["destination"]["address"]:
+        return "Please enter both a pickup and a dropoff location.", 400
+
+    return render_template_string(
+            index_file.read_text(encoding="utf-8"),
+            pickup=route_body["origin"]["address"],
+            dropoff=route_body["destination"]["address"],
+            message="Google Routes request body prepared. Check the server logs for details.")
+#########################################################################
 @app.route('/estimate_price', methods=['POST'])
 def estimate_price():
     data = request.get_json()
@@ -27,6 +53,6 @@ def estimate_price():
     estimated_price = estimator.calculate_estimation()
     
     return jsonify({"estimated_price": estimated_price})
-
+##################################################################################
 if __name__ == '__main__':
     app.run(debug=True, port = 5000)

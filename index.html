@@ -2,14 +2,12 @@
 <h1>taxi price comparison</h1>
 <form id="price-form" action="/compare-prices" method="post">
   <label for="pickup">Pickup:</label><br>
-  <input type="text" id="pickup" name="pickup"><br>
+  <input type="text" id="pickup" name="pickup" value="{{ pickup }}"><br>
   
   <label for="dropoff">Dropoff:</label><br>
-  <input type="text" id="dropoff" name="dropoff"><br>
+  <input type="text" id="dropoff" name="dropoff" value="{{ dropoff }}"><br>
 
   <input type="submit" value="Compare Prices">
-
-
 </form>
+<p>{{ message }}</p>
 
-    

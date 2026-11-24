@@ -35,10 +35,20 @@ The browser checks that both locations are filled in before the form can be subm
 
 ## Run locally
 
-1. Download or clone this repository.
-2. Open `index.html` in a web browser.
+1. Open a terminal in the `node project car` folder.
+2. Activate the virtual environment with `source .venv/bin/activate`.
+3. Install dependencies with `python -m pip install -r requirements.txt`.
+4. Start Flask with `python app.py`.
+5. Open `http://127.0.0.1:5000` in a browser.
 
-The page uses plain HTML and CSS and does not require a build step or any dependencies.
+The Flask app serves the `index.html` form from the repository folder above.
+
+## Form submission
+
+The form submits its `pickup` and `dropoff` fields to Flask's `/compare-prices`
+route. Flask reads the form fields and converts them to a dictionary. The route
+returns a plain-text success message to the browser. It does not calculate a
+price yet; fare estimation needs route distance and travel time.
 
 ## Driver location prototype
 
@@ -63,7 +73,8 @@ The form currently relies on built-in browser validation:
 - Leaving either location empty prevents submission.
 - The pickup and destination inputs accept no more than 200 characters.
 
-There is no JavaScript form submission or ride-estimate calculation yet.
+The address form submits to Flask. Ride-estimate calculation is not connected
+to the address form yet.
 
 ## Journey form behavior
 
@@ -80,7 +91,7 @@ Pickup: King's Cross Station
 Destination: London Bridge
 ```
 
-At the moment, the form is a front-end entry step only. It does not send the locations to a server or calculate or compare ride prices.
+The form sends the locations to the Flask server. It does not calculate or compare ride prices yet.
 
 ## Customizing the form
 
