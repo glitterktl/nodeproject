@@ -27,7 +27,8 @@ def prepare_route():
         "Prepared Google Routes request body (not sent to Google yet):\n%s",
         json.dumps(route_json, indent=2),
     )
-
+    if not route_json["origin"]["address"] or not route_json["destination"]["address"]:
+        return "Please enter both a pickup and a dropoff location.", 400
 
     return render_template_string(
             index_file.read_text(encoding="utf-8"),
